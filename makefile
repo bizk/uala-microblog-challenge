@@ -4,6 +4,9 @@ build:
 test:
 	go test -v ./...
 
+test-integration:
+	sh scripts/test.sh
+
 run:
 	go run cmd/api/main.go
 

@@ -40,11 +40,10 @@ Desde ahí podes probar los endpoints, ver los parámetros y las respuestas espe
 
 ---
 
-## 🛠️ Endpoints principales
+## 🛠️ Tests
 
-- POST /api/v1/tweets — Crear un nuevo tweet
-- POST /api/v1/follow — Seguir a un usuario
-- GET /api/v1/timeline?user_id=... — Obtener el timeline de un usuario
+- `make test` — Ejecuta los unit tests.
+- `make test-integration` — Ejecuta los tests de integración (es un script que crea usuarios, tweets y sigue a usuarios).
 
 ---
 

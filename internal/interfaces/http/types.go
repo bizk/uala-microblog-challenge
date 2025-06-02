@@ -1,5 +1,7 @@
 package http
 
+import "uala-microblog-challenge/internal/usecase"
+
 // Definimos los casos de uso para mantenerlos aislados del resto del sistema
 
 // A mi en particular me gusta separar los types del resto del codigo y tenerlo todo empaquetado segun.
@@ -35,14 +37,8 @@ type FollowRequest struct {
 	FollowedID string `json:"followed_id" binding:"required"`
 }
 
+// ---- Timeline ----
+
 type Timeline interface {
-	GetTimeline(userID string) ([]TweetDTO, error)
-}
-
-// ---- Tweet DTO ----
-
-type TweetDTO struct {
-	UserID  string `json:"user_id"`
-	Content string `json:"content"`
-	Time    string `json:"timestamp"`
+	GetTimeline(userID string) ([]usecase.TweetDTO, error)
 }

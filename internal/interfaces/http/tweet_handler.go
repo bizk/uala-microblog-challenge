@@ -75,7 +75,7 @@ func (h *TweetHandler) FollowUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param user_id query string true "User ID"
-// @Success 200 {array} TweetDTO "Timeline"
+// @Success 200 {array} TimelineTweetDTO "Timeline"
 // @Failure 400 {string} string "error"
 // @Failure 500 {string} string "error"
 // @Router /timeline [get]

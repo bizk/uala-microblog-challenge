@@ -13,7 +13,7 @@ func NewGetTimelineUsecase(tr TweetRepository, ur UserRepository) *GetTimelineUs
 	return &GetTimelineUsecase{tweetRepo: tr, userRepo: ur}
 }
 
-func (uc *GetTimelineUsecase) GetTimeline(userID string) ([]TimelineTweetDTO, error) {
+func (uc *GetTimelineUsecase) GetTimeline(userID string) ([]TweetDTO, error) {
 	user, err := uc.userRepo.GetByID(userID)
 	if err != nil || user == nil {
 		return nil, err
@@ -33,9 +33,10 @@ func (uc *GetTimelineUsecase) GetTimeline(userID string) ([]TimelineTweetDTO, er
 		return tweets[i].CreatedAt.After(tweets[j].CreatedAt)
 	})
 
-	result := make([]TimelineTweetDTO, 0, len(tweets))
+	// Separamos la logica de la base de datos de la logica de la api
+	result := make([]TweetDTO, 0, len(tweets))
 	for _, t := range tweets {
-		result = append(result, TimelineTweetDTO{
+		result = append(result, TweetDTO{
 			UserID:  t.UserID,
 			Content: t.Content,
 			Time:    t.CreatedAt.Format("2025-06-02 15:04:05"),
@@ -45,7 +46,7 @@ func (uc *GetTimelineUsecase) GetTimeline(userID string) ([]TimelineTweetDTO, er
 	return result, nil
 }
 
-type TimelineTweetDTO struct {
+type TweetDTO struct {
 	UserID  string
 	Content string
 	Time    string

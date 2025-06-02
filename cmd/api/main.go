@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"uala-microblog-challenge/internal/infrastructure/memory"
 	"uala-microblog-challenge/internal/interfaces/http"
+	"uala-microblog-challenge/internal/usecase"
 
 	_ "uala-microblog-challenge/docs" // generated docs
 
@@ -29,9 +31,17 @@ import (
 func main() {
 	router := gin.Default()
 
+	// Aca podriamos cargar distintas bases de datos segun una variable de ambiente por ejemplo
+	userRepo := memory.NewInMemoryUserRepository()
+	tweetRepo := memory.NewInMemoryTweetRepository()
+
 	// Usamos inyeccion de dependencias por que nos permite separar la implementacion de la interfaz. El principal beneficio de esto es poder testear y modificar con facilidad sin afectar el codigo ya implementado (osea desacoplar)
 	// PD: Es mi patron favorito :p
-	tweetHandler := http.NewTweetHandler(nil, nil, nil) // TODO: Implementar los casos de uso
+	newTweet := usecase.NewPostTweetUsecase(tweetRepo, userRepo)
+	newFollowUser := usecase.NewFollowUserUsecase(userRepo)
+	newGetTimeline := usecase.NewGetTimelineUsecase(tweetRepo, userRepo)
+
+	tweetHandler := http.NewTweetHandler(newTweet, newFollowUser, newGetTimeline)
 
 	v1 := router.Group("/api/v1")
 	{

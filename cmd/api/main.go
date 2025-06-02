@@ -43,11 +43,22 @@ func main() {
 
 	tweetHandler := http.NewTweetHandler(newTweet, newFollowUser, newGetTimeline)
 
+	createUser := usecase.NewCreateUserUsecase(userRepo)
+	getUser := usecase.NewGetUserUsecase(userRepo)
+	userHandler := http.NewUserHandler(createUser, getUser)
+
 	v1 := router.Group("/api/v1")
+	tweetGroup := v1.Group("/tweets")
 	{
-		v1.POST("/tweets", tweetHandler.PostTweet)
-		v1.POST("/follow", tweetHandler.FollowUser)
-		v1.GET("/timeline", tweetHandler.GetTimeline)
+		tweetGroup.POST("", tweetHandler.PostTweet)
+		tweetGroup.POST("/follow", tweetHandler.FollowUser)
+		tweetGroup.GET("/timeline", tweetHandler.GetTimeline)
+	}
+
+	userGroup := v1.Group("/users")
+	{
+		userGroup.POST("", userHandler.CreateUser)
+		userGroup.GET("/:id", userHandler.GetUser)
 	}
 
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

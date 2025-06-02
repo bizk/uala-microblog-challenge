@@ -1,6 +1,8 @@
 package http
 
-import "uala-microblog-challenge/internal/usecase"
+import (
+	"uala-microblog-challenge/internal/usecase"
+)
 
 // Definimos los casos de uso para mantenerlos aislados del resto del sistema
 

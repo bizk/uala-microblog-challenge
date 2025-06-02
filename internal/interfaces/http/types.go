@@ -19,7 +19,7 @@ type NewTweet interface {
 	PostTweet(userID string, content string) error
 }
 
-type postTweetRequest struct {
+type PostTweetRequest struct {
 	UserID  string `json:"user_id" binding:"required"`
 	Content string `json:"content" binding:"required,max=280"` // Seteamos el max de caracteres a 280
 }
@@ -30,7 +30,7 @@ type Follow interface {
 	Follow(followerID string, followedID string) error
 }
 
-type followRequest struct {
+type FollowRequest struct {
 	FollowerID string `json:"follower_id" binding:"required"`
 	FollowedID string `json:"followed_id" binding:"required"`
 }

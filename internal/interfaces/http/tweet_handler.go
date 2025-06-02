@@ -16,8 +16,19 @@ func NewTweetHandler(t NewTweet, f Follow, tl Timeline) *TweetHandler {
 
 // ---- New Tweet ----
 
+// PostTweet godoc
+// @Summary Crear un nuevo tweet
+// @Description Crear un nuevo tweet
+// @Tags tweets
+// @Accept json
+// @Produce json
+// @Param tweet body PostTweetRequest true "Tweet content"
+// @Success 201 {string} string "ok"
+// @Failure 400 {string} string "error"
+// @Failure 500 {string} string "error"
+// @Router /tweets [post]
 func (h *TweetHandler) PostTweet(c *gin.Context) {
-	var req postTweetRequest
+	var req PostTweetRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -31,8 +42,19 @@ func (h *TweetHandler) PostTweet(c *gin.Context) {
 
 // ---- Follow ----
 
+// FollowUser godoc
+// @Summary Seguir a un usuario
+// @Description Seguir a un usuario
+// @Tags follow
+// @Accept json
+// @Produce json
+// @Param follow body FollowRequest true "Follow user"
+// @Success 201 {string} string "ok"
+// @Failure 400 {string} string "error"
+// @Failure 500 {string} string "error"
+// @Router /follow [post]
 func (h *TweetHandler) FollowUser(c *gin.Context) {
-	var req followRequest
+	var req FollowRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -46,6 +68,17 @@ func (h *TweetHandler) FollowUser(c *gin.Context) {
 
 // ---- Timeline ----
 
+// GetTimeline godoc
+// @Summary Get timeline
+// @Description Devuelve el timeline de un usuario
+// @Tags timeline
+// @Accept json
+// @Produce json
+// @Param user_id query string true "User ID"
+// @Success 200 {array} TweetDTO "Timeline"
+// @Failure 400 {string} string "error"
+// @Failure 500 {string} string "error"
+// @Router /timeline [get]
 func (h *TweetHandler) GetTimeline(c *gin.Context) {
 	userID := c.Query("user_id")
 	if userID == "" {

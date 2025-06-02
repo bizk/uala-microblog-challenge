@@ -1,0 +1,137 @@
+basePath: /api/v1
+definitions:
+  http.FollowRequest:
+    properties:
+      followed_id:
+        type: string
+      follower_id:
+        type: string
+    required:
+    - followed_id
+    - follower_id
+    type: object
+  http.PostTweetRequest:
+    properties:
+      content:
+        description: Seteamos el max de caracteres a 280
+        maxLength: 280
+        type: string
+      user_id:
+        type: string
+    required:
+    - content
+    - user_id
+    type: object
+  http.TweetDTO:
+    properties:
+      content:
+        type: string
+      timestamp:
+        type: string
+      user_id:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api
+host: localhost:8080
+info:
+  contact:
+    name: Carlos Santiago Yanzon
+    url: https://github.com/bizk
+  description: Servidor HTTP para el microblog de Uala.
+  title: Uala Microblog Challenge
+  version: "1.0"
+paths:
+  /follow:
+    post:
+      consumes:
+      - application/json
+      description: Seguir a un usuario
+      parameters:
+      - description: Follow user
+        in: body
+        name: follow
+        required: true
+        schema:
+          $ref: '#/definitions/http.FollowRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Seguir a un usuario
+      tags:
+      - follow
+  /timeline:
+    get:
+      consumes:
+      - application/json
+      description: Devuelve el timeline de un usuario
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Timeline
+          schema:
+            items:
+              $ref: '#/definitions/http.TweetDTO'
+            type: array
+        "400":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Get timeline
+      tags:
+      - timeline
+  /tweets:
+    post:
+      consumes:
+      - application/json
+      description: Crear un nuevo tweet
+      parameters:
+      - description: Tweet content
+        in: body
+        name: tweet
+        required: true
+        schema:
+          $ref: '#/definitions/http.PostTweetRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Crear un nuevo tweet
+      tags:
+      - tweets
+swagger: "2.0"

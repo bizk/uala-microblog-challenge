@@ -1,0 +1,207 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Servidor HTTP para el microblog de Uala.",
+        "title": "Uala Microblog Challenge",
+        "contact": {
+            "name": "Carlos Santiago Yanzon",
+            "url": "https://github.com/bizk"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/follow": {
+            "post": {
+                "description": "Seguir a un usuario",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follow"
+                ],
+                "summary": "Seguir a un usuario",
+                "parameters": [
+                    {
+                        "description": "Follow user",
+                        "name": "follow",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.FollowRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/timeline": {
+            "get": {
+                "description": "Devuelve el timeline de un usuario",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "timeline"
+                ],
+                "summary": "Get timeline",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Timeline",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/http.TweetDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/tweets": {
+            "post": {
+                "description": "Crear un nuevo tweet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tweets"
+                ],
+                "summary": "Crear un nuevo tweet",
+                "parameters": [
+                    {
+                        "description": "Tweet content",
+                        "name": "tweet",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.PostTweetRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "http.FollowRequest": {
+            "type": "object",
+            "required": [
+                "followed_id",
+                "follower_id"
+            ],
+            "properties": {
+                "followed_id": {
+                    "type": "string"
+                },
+                "follower_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.PostTweetRequest": {
+            "type": "object",
+            "required": [
+                "content",
+                "user_id"
+            ],
+            "properties": {
+                "content": {
+                    "description": "Seteamos el max de caracteres a 280",
+                    "type": "string",
+                    "maxLength": 280
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.TweetDTO": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api"
+    }
+}

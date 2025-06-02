@@ -57,8 +57,8 @@ func main() {
 
 	userGroup := v1.Group("/users")
 	{
-		userGroup.POST("", userHandler.CreateUser)
-		userGroup.GET("/:id", userHandler.GetUser)
+		userGroup.POST("/:user_id", userHandler.CreateUser)
+		userGroup.GET("/:user_id", userHandler.GetUser)
 	}
 
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

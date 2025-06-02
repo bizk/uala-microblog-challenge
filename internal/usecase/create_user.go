@@ -2,8 +2,6 @@ package usecase
 
 import (
 	"uala-microblog-challenge/internal/domain"
-
-	"github.com/google/uuid"
 )
 
 type CreateUserUsecase struct {
@@ -16,13 +14,12 @@ func NewCreateUserUsecase(userRepo UserRepository) *CreateUserUsecase {
 	}
 }
 
-func (u *CreateUserUsecase) Create() (string, error) {
-	userID := uuid.New()
-	user := domain.NewUser(userID.String())
+func (u *CreateUserUsecase) Create(id string) (string, error) {
+	user := domain.NewUser(id)
 	err := u.userRepo.Save(user)
 	if err != nil {
 		return "", err
 	}
 
-	return userID.String(), nil
+	return id, nil
 }

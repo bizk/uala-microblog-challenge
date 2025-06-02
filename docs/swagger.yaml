@@ -45,67 +45,6 @@ info:
   title: Uala Microblog Challenge
   version: "1.0"
 paths:
-  /follow:
-    post:
-      consumes:
-      - application/json
-      description: Seguir a un usuario
-      parameters:
-      - description: Follow user
-        in: body
-        name: follow
-        required: true
-        schema:
-          $ref: '#/definitions/http.FollowRequest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: ok
-          schema:
-            type: string
-        "400":
-          description: error
-          schema:
-            type: string
-        "500":
-          description: error
-          schema:
-            type: string
-      summary: Seguir a un usuario
-      tags:
-      - follow
-  /timeline:
-    get:
-      consumes:
-      - application/json
-      description: Devuelve el timeline de un usuario
-      parameters:
-      - description: User ID
-        in: query
-        name: user_id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Timeline
-          schema:
-            items:
-              $ref: '#/definitions/domain.Tweet'
-            type: array
-        "400":
-          description: error
-          schema:
-            type: string
-        "500":
-          description: error
-          schema:
-            type: string
-      summary: Get timeline
-      tags:
-      - timeline
   /tweets:
     post:
       consumes:
@@ -136,11 +75,18 @@ paths:
       summary: Crear un nuevo tweet
       tags:
       - tweets
-  /users:
+  /tweets/follow:
     post:
       consumes:
       - application/json
-      description: Crear un nuevo usuario
+      description: Seguir a un usuario
+      parameters:
+      - description: Follow user
+        in: body
+        name: follow
+        required: true
+        schema:
+          $ref: '#/definitions/http.FollowRequest'
       produces:
       - application/json
       responses:
@@ -156,9 +102,40 @@ paths:
           description: error
           schema:
             type: string
-      summary: Crear un nuevo usuario
+      summary: Seguir a un usuario
       tags:
-      - users
+      - follow
+  /tweets/timeline:
+    get:
+      consumes:
+      - application/json
+      description: Devuelve el timeline de un usuario
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Timeline
+          schema:
+            items:
+              $ref: '#/definitions/domain.Tweet'
+            type: array
+        "400":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Get timeline
+      tags:
+      - timeline
   /users/{user_id}:
     get:
       consumes:
@@ -186,6 +163,34 @@ paths:
           schema:
             type: string
       summary: Obtener un usuario
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Crear un nuevo usuario
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Crear un nuevo usuario
       tags:
       - users
 swagger: "2.0"

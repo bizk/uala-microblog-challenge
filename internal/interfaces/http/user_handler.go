@@ -27,12 +27,18 @@ func NewUserHandler(c CreateUser, g GetUser) *UserHandler {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Param user_id path string true "User ID"
 // @Success 201 {string} string "ok"
 // @Failure 400 {string} string "error"
 // @Failure 500 {string} string "error"
-// @Router /users [post]
+// @Router /users/{user_id} [post]
 func (h *UserHandler) CreateUser(c *gin.Context) {
-	userID, err := h.createUser.Create()
+	userID := c.Param("user_id")
+	if userID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+		return
+	}
+	userID, err := h.createUser.Create(userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create user"})
 		return
@@ -41,7 +47,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 }
 
 type CreateUser interface {
-	Create() (string, error)
+	Create(id string) (string, error)
 }
 
 // ---- Get User ----
@@ -58,7 +64,7 @@ type CreateUser interface {
 // @Failure 500 {string} string "error"
 // @Router /users/{user_id} [get]
 func (h *UserHandler) GetUser(c *gin.Context) {
-	userID := c.Param("id")
+	userID := c.Param("user_id")
 	if userID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id is required"})
 		return

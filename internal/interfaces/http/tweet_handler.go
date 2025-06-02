@@ -52,7 +52,7 @@ func (h *TweetHandler) PostTweet(c *gin.Context) {
 // @Success 201 {string} string "ok"
 // @Failure 400 {string} string "error"
 // @Failure 500 {string} string "error"
-// @Router /follow [post]
+// @Router /tweets/follow [post]
 func (h *TweetHandler) FollowUser(c *gin.Context) {
 	var req FollowRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -78,7 +78,7 @@ func (h *TweetHandler) FollowUser(c *gin.Context) {
 // @Success 200 {array} domain.Tweet "Timeline"
 // @Failure 400 {string} string "error"
 // @Failure 500 {string} string "error"
-// @Router /timeline [get]
+// @Router /tweets/timeline [get]
 func (h *TweetHandler) GetTimeline(c *gin.Context) {
 	userID := c.Query("user_id")
 	if userID == "" {

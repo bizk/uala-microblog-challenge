@@ -23,9 +23,14 @@ import (
 
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api
+
+// TODO agregar errores tipados
+// TODO agregar mejores logs
 func main() {
 	router := gin.Default()
 
+	// Usamos inyeccion de dependencias por que nos permite separar la implementacion de la interfaz. El principal beneficio de esto es poder testear y modificar con facilidad sin afectar el codigo ya implementado (osea desacoplar)
+	// PD: Es mi patron favorito :p
 	tweetHandler := http.NewTweetHandler(nil, nil, nil) // TODO: Implementar los casos de uso
 
 	v1 := router.Group("/api/v1")

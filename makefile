@@ -1,8 +1,8 @@
 build:
-	go build -o main main.go
+	go build -o main cmd/api/main.go
 
 run:
-	go run main.go
+	go run cmd/api/main.go
 
 docker-build:
 	docker build -t uala-microblog-challenge .
